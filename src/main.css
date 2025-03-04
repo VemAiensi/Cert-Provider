@@ -8,11 +8,28 @@
   padding: 0;
 }
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.workstation {
   height: 100vh;
   background-color: bisque;
+  display: flex;
+}
+
+.workspace {
+  overflow: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.controls {
+  margin-left: auto;
+  justify-self: flex-end;
+  width: 300px;
+  height: 100dvh;
+  background-color: white;
 }
 
 * {
@@ -20,10 +37,10 @@ body {
 }
 
 h2 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 h3 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 .participant {
@@ -31,7 +48,7 @@ h3 {
   border-bottom: 5px solid darkblue;
 }
 p {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 350;
   font-family: "Roboto";
   color: rgb(83, 83, 83);
@@ -39,11 +56,14 @@ p {
 
 .cert {
   padding: 20px;
-  height: 1063px;
-  width: 1375px;
+  min-height: 816px;
+  min-width: 1056px;
+  max-height: 816px;
+  max-width: 1056px;
   position: relative;
   background-color: white;
 }
+
 .border {
   height: 100%;
   border-radius: 50px;
@@ -69,6 +89,7 @@ p {
   display: flex;
   align-items: center;
   gap: 30px;
+
   img {
     width: 80px;
   }
@@ -81,14 +102,7 @@ p {
   align-items: center;
   width: 1000px;
   padding-top: 70px;
-  * {
-    text-align: center;
-  }
 
-  h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
   h2:nth-child(1) {
     font-weight: 1000;
     letter-spacing: 4px;
@@ -98,12 +112,6 @@ p {
     width: 800px;
     border-bottom: 5px solid rgb(46, 112, 212);
     padding: 0 5px 0 5px;
-  }
-  p {
-    font-size: 1.5rem;
-    font-weight: 350;
-    font-family: "Roboto";
-    color: rgb(83, 83, 83);
   }
   p:last-child {
     color: black;
