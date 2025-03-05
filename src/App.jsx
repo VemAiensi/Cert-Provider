@@ -1,40 +1,28 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
 
 function App() {
-  const attendees = [
-    {
-      name: { first: "Marco", full: "Marco Angelo De Dios" },
-      email: "marcoangelo.dedios@neu.edu.ph",
-    },
-    {
-      name: {
-        first: "Vem",
-        full: "Vem Aiensi A. Marasigan",
-      },
-      email: "vem.aiensi@gmail.com",
-    },
-    {
-      name: { first: "Clark", full: "Clark Belen" },
-      email: "clark.belen@neu.edu.ph",
-    },
-    {
-      name: { first: "Ma. Yalaine", full: "Ma. Yalaine Merino" },
-      email: "ma.yalaine.merino@neu.edu.ph",
-    },
-    {
-      name: { first: "Marianne", full: "Marianne Edic" },
-      email: "marianne.edic@neu.edu.ph",
-    },
-  ];
-
+  const [attendees, setAttendees] = useState([]);
   const certRefs = useRef([]);
-  certRefs.current = Array.from(attendees, () => React.createRef());
-  console.log(certRefs);
 
-  async function generateCertImage(index) {
+  useEffect(() => {
+    async function fetchAttendees() {
+      try {
+        const response = await fetch("http://localhost:5000/api/attendees");
+        if (!response.ok) throw new Error("Failed to fetch attendees");
+        const data = await response.json();
+        setAttendees(data);
+        certRefs.current = data.map(() => React.createRef());
+      } catch (error) {
+        console.error("Error fetching attendees:", error);
+      }
+    }
+    fetchAttendees();
+  }, []);
+
+ async function generateCertImage(index) {
     if (certRefs.current[index]) {
       const canvas = await html2canvas(certRefs.current[index].current, {
         scale: 2,
@@ -45,6 +33,8 @@ function App() {
       });
     }
   }
+
+
 
   function htmlMessage(name) {
     return `
@@ -320,17 +310,19 @@ function App() {
     }
   }
 
-  function sendEmails() {
-    attendees.forEach((attendee, certIndex) => {
-      console.log(attendee, certIndex, certRefs.current[certIndex]);
-      sendEmail(attendee.name.first, attendee.email, certIndex);
-    });
+  async function sendEmails() {
+    await Promise.all(
+      attendees.map(async (attendee, certIndex) => {
+        await sendEmail(attendee.name.first, attendee.email, certIndex);
+      })
+    );
   }
+  
 
   return (
     <div className="workstation">
       <div className="workspace">
-        {attendees.map((entry, index) => (
+      {attendees.map((entry, index) => (
           <Certificate
             ref={certRefs.current[index]}
             key={index}
