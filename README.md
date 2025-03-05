@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="./public/medal.png" width="80px">
+</p>
+
 <h2 align="center">Certificate Provider</h2>
 
 <p align="center"><em>An automated certificate generator used for our Onsite Seminar</em></p>
@@ -15,7 +19,7 @@
 
 ### 🛠️ Installation
 
-If you want your own local instance, installation is pretty straight forward
+#### Frontend
 
 - Clone repository and install dependencies
 
@@ -32,3 +36,14 @@ $ npm run dev
 ```
 
 - Open localhost:5173 in the browser or with `o + enter` in terminal
+
+#### Email Service
+
+- Once everything above is set up, go the server directory
+
+```sh
+cd server
+node email.js
+```
+
+> This will run the email backend in localhost:3000 so you might want to turn off any existing activities in said port first.
