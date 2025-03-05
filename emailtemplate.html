@@ -1,5 +1,27 @@
 <html>
-  <head> </head>
+  <head>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 1056px;
+        max-height: 816px;
+        min-width: 1056px;
+        min-height: 816px;
+        justify-content: center;
+        background-color: #ffff;
+        background-image: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 1) 25%,
+            rgba(0, 0, 0, 0) 100%
+          ),
+          url("./src/assets/Gemini_Generated_Image.jpeg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
   <body>
     <table
       cellpadding="0"
@@ -216,5 +238,7 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="container"></div>
   </body>
 </html>
