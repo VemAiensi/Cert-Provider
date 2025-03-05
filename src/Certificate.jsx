@@ -1,9 +1,11 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import neulogo from "./assets/NEU_Logo.png";
+import cicslogo from "./assets/CICS.png";
+import "./cert.css";
 
-function Certificate({ name }) {
+const Certificate = forwardRef((props, ref) => {
   return (
-    <div className="cert">
+    <div ref={ref} className="cert">
       <div className="border">
         <div className="container">
           <div className="logos">
@@ -15,32 +17,30 @@ function Certificate({ name }) {
                 College of Informatics <br /> and Computing Studies
               </p>
             </div>
-            <img src={neulogo} alt="" />
+            <img src={cicslogo} alt="" />
           </div>
 
           <div className="content">
             <h2>CERTIFICATE OF ATTENDANCE</h2>
-            <br />
 
-            <p>is given to</p>
+            <span className="participant"> {props.name} </span>
 
-            <h2 className="participant"> {name} </h2>
-            <p>for attending the</p>
-            <h2 className="seminar-title">
-              Data Driven Facilities Management: <br /> The Future of Smart
-              Spaces
-            </h2>
             <p>
+              is given this certificate for attending the <br />{" "}
+              <strong>
+                Data Driven Facilities Management: The Future of Smart Spaces
+              </strong>{" "}
+              <br />
               seminar hosted by the College of Informatics and Computing Studies
-              held on
+              held on <br />{" "}
+              <strong>17th of March 2025 at New Era University.</strong>
             </p>
-            <p>17th of March 2025 at New Era University</p>
           </div>
 
           <div className="signatories">
             <div>
               <h3>Paul Eraño V. Ladrillo</h3>
-              <p>Data Specialist at JLL</p>
+              <p>Speaker, Data Specialist at JLL Database Administration</p>
             </div>
             <div>
               <h3>Audrey Lyle D. Diego</h3>
@@ -51,5 +51,5 @@ function Certificate({ name }) {
       </div>
     </div>
   );
-}
+});
 export default Certificate;

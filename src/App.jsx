@@ -1,24 +1,56 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
 
 function App() {
-  const names = [
-    { name: "Marco Angelo De Dios", email: "marcoangelo.dedios@neu.edu.ph" },
-    { name: "Vem Aiensi A. Marasigan", email: "vem.aiensi@gmail.com" },
-    { name: "Clark Belen", email: "clark.belen@neu.edu.ph" },
-    { name: "Ma. Yalaine Merino", email: "ma.yalaine.merino@neu.edu.ph" },
-    { name: "Marianne Edic", email: "marianne.edic@neu.edu.ph" },
+  const attendees = [
+    {
+      name: { first: "Marco", full: "Marco Angelo De Dios" },
+      email: "marcoangelo.dedios@neu.edu.ph",
+    },
+    {
+      name: {
+        first: "Vem",
+        full: "Vem Aiensi A. Marasigan",
+      },
+      email: "vem.aiensi@gmail.com",
+    },
+    {
+      name: { first: "Clark", full: "Clark Belen" },
+      email: "clark.belen@neu.edu.ph",
+    },
+    {
+      name: { first: "Ma. Yalaine", full: "Ma. Yalaine Merino" },
+      email: "ma.yalaine.merino@neu.edu.ph",
+    },
+    {
+      name: { first: "Marianne", full: "Marianne Edic" },
+      email: "marianne.edic@neu.edu.ph",
+    },
   ];
 
-  async function sendEmail(name, email) {
-    const data = {
-      to: email,
-      subject: "SEMINAR | Data Driven Facilities: The Future of Smart Spaces",
-      html: `
+  const certRefs = useRef([]);
+  certRefs.current = Array.from(attendees, () => React.createRef());
+  console.log(certRefs);
+
+  async function generateCertImage(index) {
+    if (certRefs.current[index]) {
+      const canvas = await html2canvas(certRefs.current[index].current, {
+        scale: 2,
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob(resolve, "image/png", 1);
+      });
+    }
+  }
+
+  function htmlMessage(name) {
+    return `
 <html>
   <head> </head>
-  <body style="background-color:rgb(220, 221, 238); margin: 0; padding: 40px 0 40px 0;">
+  <body style="background-color:rgb(220, 221, 238); margin: 0; padding: 40px 20px 40px 20px;">
     <table
       cellpadding="0"
       cellspacing="0"
@@ -81,7 +113,7 @@ function App() {
         </tr>
 
         <tr>
-          <td>
+          <td >
             <table
               style="
                 margin: 0 auto;
@@ -99,7 +131,7 @@ function App() {
                     <table>
                       <tbody>
                         <tr>
-                          <td>Dear <b>${name}</b></td>
+                          <td>Hi <b>${name}</b>,</td>
                         </tr>
                         <tr height="20"></tr>
                         <tr>
@@ -121,13 +153,15 @@ function App() {
                             certificate of attendance attached to this email.
                           </td>
                         </tr>
-                        <tr></tr>
+                        <tr height="20"></tr>
                       </tbody>
                     </table>
                   </td>
 
+                </tr>
+                <tr>
                   <td>
-                    <table style="margin-left: 20px; width: 200px">
+                    <table style="max-width: 500px; margin: 0 auto;">
                       <tbody>
                         <tr>
                           <td align="center">
@@ -144,8 +178,9 @@ function App() {
                         <tr>
                           <td style="text-align: center">
                             <i
-                              >Seminar Speaker | Data Specialist in JLL Database
-                              Management</i
+                              >Seminar Speaker <br/> 
+                              Data Specialist in JLL Database
+                              Administration</i
                             >
                           </td>
                         </tr>
@@ -153,6 +188,8 @@ function App() {
                     </table>
                   </td>
                 </tr>
+
+                
               </tbody>
             </table>
           </td>
@@ -176,15 +213,12 @@ function App() {
                   <td><b>CONTRIBUTORS:</b></td>
                 </tr>
                 <tr>
-                  <td>vemaiensi.marasigan@neu.edu.ph clark.belen@neu.edu.ph</td>
+                  <td>marcoangelo.dedios@neu.edu.ph vemaiensi.marasigan@neu.edu.ph clark.belen@neu.edu.ph</td>
                 </tr>
                 <tr>
                   <td>
-                    marcoangelo.dedios@neu.edu.ph ma.yalaine.merino@neu.edu.ph
+                     ma.yalaine.merino@neu.edu.ph marianne.edic@neu.edu.ph
                   </td>
-                </tr>
-                <tr>
-                  <td>marianne.edic@neu.edu.ph</td>
                 </tr>
               </tbody>
             </table>
@@ -211,6 +245,7 @@ function App() {
               <tbody>
                 <tr>
                   <td
+                  
                     style="
                       font-family: serif;
                       font-weight: 600;
@@ -243,7 +278,15 @@ function App() {
     </table>
   </body>
 </html>
-`,
+`;
+  }
+
+  //Submitting the post request
+  async function sendEmail(name, email, cert) {
+    const data = {
+      to: email,
+      subject: "SEMINAR | Data Driven Facilities: The Future of Smart Spaces",
+      html: htmlMessage(name),
     };
     const formData = new FormData();
 
@@ -252,23 +295,10 @@ function App() {
       formData.append(key, data[key]);
     }
 
-    //logging email context
-    // for (const pair of formData.entries()) {
-    //   console.log(`${pair[0]}: ${pair[1]}`);
-    // }
-
     try {
-      // Fetch the image
-      const imageResponse = await fetch("/certificates/marcoangelodedios.png"); // Replace with the actual image path
-      const imageBlob = await imageResponse.blob(); // Get the image as a Blob
-
+      const imageBlob = await generateCertImage(cert);
       // Append the image to FormData
       formData.append("image", imageBlob, "cert.png"); // Append the blob with the filename
-
-      //logging email context
-      // for (const pair of formData.entries()) {
-      //   console.log(`${pair[0]}: ${pair[1]}`);
-      // }
 
       const response = await fetch("http://localhost:3000/send-email", {
         // Replace with your actual endpoint
@@ -278,30 +308,43 @@ function App() {
 
       if (response.ok) {
         const responseData = await response.text(); // or response.json() if your server sends JSON
-        console.log("Data sent successfully:", responseData);
+        console.log(`Message to ${email}`, responseData);
         return responseData;
       } else {
         console.error("Failed to send data:", response.statusText);
         return null;
       }
     } catch (error) {
-      console.error("Error sending data:", error);
+      console.error("And error occured in sending data:", error);
       return null;
     }
+  }
+
+  function sendEmails() {
+    attendees.forEach((attendee, certIndex) => {
+      console.log(attendee, certIndex, certRefs.current[certIndex]);
+      sendEmail(attendee.name.first, attendee.email, certIndex);
+    });
   }
 
   return (
     <div className="workstation">
       <div className="workspace">
-        {names.map((entry) => (
-          <Certificate key={entry.name} name={entry.name} />
+        {attendees.map((entry, index) => (
+          <Certificate
+            ref={certRefs.current[index]}
+            key={index}
+            name={entry.name.full}
+          />
         ))}
       </div>
 
       <div className="controls">
         <button
           onClick={() => {
-            names.forEach((entry) => sendEmail(entry.name, entry.email));
+            sendEmails();
+
+            //sendEmail("Vem", "vem.aiensi@gmail.com", 1);
           }}
           className="btn"
         >
