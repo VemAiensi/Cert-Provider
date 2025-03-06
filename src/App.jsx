@@ -322,7 +322,7 @@ function App() {
   return (
     <div className="workstation">
       <div className="workspace">
-      {attendees.map((entry, index) => (
+        {attendees.map((entry, index) => (
           <Certificate
             ref={certRefs.current[index]}
             key={index}
