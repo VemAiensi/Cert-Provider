@@ -4,25 +4,49 @@ import "./main.css";
 import Certificate from "./Certificate";
 
 function App() {
-  const [attendees, setAttendees] = useState([]);
+  const [attendees, setAttendees] = useState([
+    {
+      Email: "vem.aiensi@gmail.com",
+      "First Name": "Vem Aiensi",
+      "Middle Initial": "",
+      "Last Name": "Marasigan",
+      Program: "BS Computer Science",
+      "Year Level": "4rth Year",
+    },
+    {
+      Email: "vem.aiensi@gmail.com",
+      "First Name": "Vem Aiensi",
+      "Middle Initial": "A.",
+      "Last Name": "Marasigan",
+      Program: "BS Computer Science",
+      "Year Level": "4rth Year",
+    },
+    {
+      Email: "vem.aiensi@gmail.com",
+      "First Name": "Vem Aiensi",
+      "Middle Initial": "A.",
+      "Last Name": "Marasigan",
+      Program: "BS Computer Science",
+      "Year Level": "4rth Year",
+    },
+  ]);
   const certRefs = useRef([]);
 
-  useEffect(() => {
-    async function fetchAttendees() {
-      try {
-        const response = await fetch("http://localhost:5000/api/attendees");
-        if (!response.ok) throw new Error("Failed to fetch attendees");
-        const data = await response.json();
-        setAttendees(data);
-        certRefs.current = data.map(() => React.createRef());
-      } catch (error) {
-        console.error("Error fetching attendees:", error);
-      }
-    }
-    fetchAttendees();
-  }, []);
+  async function fetchAttendees() {
+    try {
+      const response = await fetch("http://localhost:3000/form-response");
 
- async function generateCertImage(index) {
+      if (!response.ok) throw new Error("Failed to fetch attendees");
+      const data = await response.json();
+      console.log(data);
+      setAttendees(data);
+      certRefs.current = data.map(() => React.createRef());
+    } catch (error) {
+      console.error("Error fetching attendees:", error);
+    }
+  }
+
+  async function generateCertImage(index) {
     if (certRefs.current[index]) {
       const canvas = await html2canvas(certRefs.current[index].current, {
         scale: 2,
@@ -33,8 +57,6 @@ function App() {
       });
     }
   }
-
-
 
   function htmlMessage(name) {
     return `
@@ -291,13 +313,12 @@ function App() {
       formData.append("image", imageBlob, "cert.png"); // Append the blob with the filename
 
       const response = await fetch("http://localhost:3000/send-email", {
-        // Replace with your actual endpoint
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        const responseData = await response.text(); // or response.json() if your server sends JSON
+        const responseData = await response.text();
         console.log(`Message to ${email}`, responseData);
         return responseData;
       } else {
@@ -313,25 +334,52 @@ function App() {
   async function sendEmails() {
     await Promise.all(
       attendees.map(async (attendee, certIndex) => {
-        await sendEmail(attendee.name.first, attendee.email, certIndex);
+        await sendEmail(attendee["First Name"], attendee.Email, certIndex);
       })
     );
   }
-  
 
   return (
     <div className="workstation">
       <div className="workspace">
-        {attendees.map((entry, index) => (
-          <Certificate
-            ref={certRefs.current[index]}
-            key={index}
-            name={entry.name.full}
-          />
-        ))}
+        {attendees.map((entry, index) => {
+          let fullName = entry["First Name"] + " ";
+          if (entry["Middle Initial"]) {
+            fullName += entry["Middle Initial"] + ". ";
+          }
+          fullName += entry["Last Name"];
+
+          return (
+            <Certificate
+              ref={certRefs.current[index]}
+              key={index}
+              name={fullName}
+            />
+          );
+        })}
       </div>
 
       <div className="controls">
+        <button onClick={fetchAttendees} className="btn">
+          Get Attendees
+        </button>
+
+        <ul>
+          {attendees.map((entry, index) => {
+            let fullName = entry["First Name"] + " ";
+            if (entry["Middle Initial"]) {
+              fullName += entry["Middle Initial"] + ". ";
+            }
+            fullName += entry["Last Name"];
+
+            return (
+              <li key={index}>
+                {fullName} {entry.Email}
+              </li>
+            );
+          })}
+        </ul>
+
         <button
           onClick={() => {
             sendEmails();

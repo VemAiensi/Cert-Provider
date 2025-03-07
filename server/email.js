@@ -3,10 +3,17 @@ import nodemailer from "nodemailer";
 import cors from "cors";
 import multer from "multer";
 import env from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const app = express();
 app.use(cors());
-env.config();
+
+// Setting up environment variables
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+env.config({ path: path.resolve(__dirname, "..", ".env") });
 console.log(process.env.EMAIL, process.env.PASSWORD);
 
 const transporter = nodemailer.createTransport({
@@ -46,6 +53,22 @@ app.post("/send-email", upload.single("image"), async (req, res) => {
   } catch (error) {
     console.error("Error sending email:", error);
     res.status(500).send("Error sending email.");
+  }
+});
+
+app.get("/form-response", async (req, res) => {
+  try {
+    const response = await fetch(
+      `${process.env.FORM_ENDPOINT}?formId=${process.env.FORM_ID}`
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch attendees");
+    const data = await response.json();
+    console.log(data);
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching attendees:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 
