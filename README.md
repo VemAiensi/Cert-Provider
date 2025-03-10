@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./public/medal.png" width="80px">
+    <img src="./public/medal.svg" width="80px">
 </p>
 
 <h2 align="center">Certificate Provider</h2>
