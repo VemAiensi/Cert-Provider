@@ -185,11 +185,10 @@ function App() {
                         </tr>
                         <tr>
                           <td style="text-align: center">
-                            <i
-                              >Seminar Speaker <br/> 
-                              Data Specialist in JLL Database
-                              Administration</i
-                            >
+                            <i>
+                              Seminar Speaker <br/> 
+                              Data Specialist at  JLL Digital Operations Service Center
+                            </i>
                           </td>
                         </tr>
                       </tbody>

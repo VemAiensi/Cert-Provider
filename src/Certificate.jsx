@@ -40,7 +40,10 @@ const Certificate = forwardRef((props, ref) => {
           <div className="signatories">
             <div>
               <h3>Paul Eraño V. Ladrillo</h3>
-              <p>Speaker, Data Specialist at JLL Database Administration</p>
+              <p>
+                Speaker, Data Specialist at JLL Digital Operations Service
+                Center
+              </p>
             </div>
             <div>
               <h3>Audrey Lyle D. Diego</h3>
