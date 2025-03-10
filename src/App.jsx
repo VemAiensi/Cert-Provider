@@ -2,35 +2,31 @@ import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
+import { Button } from "@mui/material";
 
 function App() {
   const [attendees, setAttendees] = useState([
     {
       Email: "vem.aiensi@gmail.com",
       "First Name": "Vem Aiensi",
-      "Middle Initial": "",
-      "Last Name": "Marasigan",
-      Program: "BS Computer Science",
-      "Year Level": "4rth Year",
-    },
-    {
-      Email: "vem.aiensi@gmail.com",
-      "First Name": "Vem Aiensi",
-      "Middle Initial": "A.",
-      "Last Name": "Marasigan",
-      Program: "BS Computer Science",
-      "Year Level": "4rth Year",
-    },
-    {
-      Email: "vem.aiensi@gmail.com",
-      "First Name": "Vem Aiensi",
-      "Middle Initial": "A.",
+      "Middle Initial": "A",
       "Last Name": "Marasigan",
       Program: "BS Computer Science",
       "Year Level": "4rth Year",
     },
   ]);
   const certRefs = useRef([]);
+  certRefs.current = attendees.map(() => React.createRef());
+
+  const [confirmSendDisplay, setConfirmSend] = useState(false);
+  function toggleSendDisplay() {
+    setConfirmSend(!confirmSendDisplay);
+  }
+
+  const [sendBtn, setSendBtn] = useState(false);
+  function toggleSendBtn() {
+    setSendBtn(!sendBtn);
+  }
 
   async function fetchAttendees() {
     try {
@@ -332,11 +328,13 @@ function App() {
   }
 
   async function sendEmails() {
+    toggleSendBtn();
     await Promise.all(
       attendees.map(async (attendee, certIndex) => {
         await sendEmail(attendee["First Name"], attendee.Email, certIndex);
       })
     );
+    toggleSendDisplay();
   }
 
   return (
@@ -360,37 +358,76 @@ function App() {
       </div>
 
       <div className="controls">
-        <button onClick={fetchAttendees} className="btn">
+        <div className="attendee-container">
+          <div className="title">ATTENDEE LIST</div>
+          <div className="attendee-list">
+            {attendees.map((entry, index) => {
+              let fullName = entry["First Name"] + " ";
+              if (entry["Middle Initial"]) {
+                fullName += entry["Middle Initial"] + ". ";
+              }
+              fullName += entry["Last Name"];
+
+              return (
+                <div key={index} className="attendee">
+                  <div className="dot"></div>
+                  <div className="text">
+                    <h3>{fullName}</h3>
+                    <p>{entry.Email}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={fetchAttendees}
+          className="get-btn"
+        >
           Get Attendees
-        </button>
+        </Button>
 
-        <ul>
-          {attendees.map((entry, index) => {
-            let fullName = entry["First Name"] + " ";
-            if (entry["Middle Initial"]) {
-              fullName += entry["Middle Initial"] + ". ";
-            }
-            fullName += entry["Last Name"];
-
-            return (
-              <li key={index}>
-                {fullName} {entry.Email}
-              </li>
-            );
-          })}
-        </ul>
-
-        <button
-          onClick={() => {
-            sendEmails();
-
-            //sendEmail("Vem", "vem.aiensi@gmail.com", 1);
-          }}
-          className="btn"
+        <Button
+          variant="contained"
+          color="success"
+          onClick={toggleSendDisplay}
+          className="send-btn"
         >
           Send Email
-        </button>
+        </Button>
       </div>
+      {confirmSendDisplay && (
+        <div className="confirm-send-modal">
+          <div className="modal-container">
+            <div className="description">
+              <p>This action will send</p>
+              <div className="attendee-number">
+                <p>{attendees.length}</p>
+              </div>
+              <p>emails.</p>
+            </div>
+
+            <div className="action-buttons">
+              <Button color="primary" onClick={toggleSendDisplay}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  sendEmails();
+                }}
+                disabled={sendBtn}
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

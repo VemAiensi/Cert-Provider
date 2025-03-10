@@ -26,7 +26,112 @@
 .controls {
   margin-left: auto;
   justify-self: flex-end;
+  padding: 20px;
   width: 300px;
   height: 100dvh;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.attendee-container{
+  flex-grow: 1;
+}
+
+.attendee-container .title{
+  margin-bottom: 10px;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.attendee-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attendee{
+  display: flex;
+  align-items: flex-start;
+  color: rgb(6, 0, 99);
+}
+
+.attendee .dot{
+  min-width: 8px;
+  min-height: 8px;
+  max-width: 8px;
+  max-height: 4px;
+  background-color: rgb(6, 0, 99);
+  border-radius: 8px;
+  margin-top: 4px;
+  margin-right: 10px;
+}
+.attendee .text{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.attendee h3{
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.attendee p{
+  font-size: 1rem;
+}
+.get-btn,
+.send-btn{
+  margin-top: auto;
+  justify-self: flex-end;
+}
+
+.confirm-send-modal{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 6, 58, 0.577);
+}
+
+.modal-container{
+  background-color: white;
+  width: 500px;
+  height: 300px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+.description{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+.attendee-number{
+  background-color: rgb(136, 164, 255);
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+.attendee-number p{
+  color: rgb(255, 255, 255);
+}
+.action-buttons{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
