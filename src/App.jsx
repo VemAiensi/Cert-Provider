@@ -3,6 +3,9 @@ import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
 import { Button } from "@mui/material";
+import cert1 from "./assets/certTemp.png";
+import CerThumbnail from "./CerThumbnail";
+import cert2 from "./assets/certTemp2.png";
 
 function App() {
   const [attendees, setAttendees] = useState([
@@ -336,6 +339,81 @@ function App() {
     toggleSendDisplay();
   }
 
+  const [theme, setTheme] = useState(1);
+  function renderThemeOptions() {
+    switch (theme) {
+      case 1:
+        return (
+          <>
+            <CerThumbnail
+              certNum={1}
+              imgSrc={cert1}
+              active={true}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={2}
+              imgSrc={cert2}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={3}
+              imgSrc={cert1}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <CerThumbnail
+              certNum={1}
+              imgSrc={cert1}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={2}
+              imgSrc={cert2}
+              active={true}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={3}
+              imgSrc={cert1}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <CerThumbnail
+              certNum={1}
+              imgSrc={cert1}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={2}
+              imgSrc={cert2}
+              active={false}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+            <CerThumbnail
+              certNum={3}
+              imgSrc={cert1}
+              active={true}
+              clickFnc={setTheme}
+            ></CerThumbnail>
+          </>
+        );
+    }
+  }
+
   return (
     <div className="workstation">
       <div className="workspace">
@@ -379,7 +457,6 @@ function App() {
             })}
           </div>
         </div>
-
         <Button
           variant="contained"
           color="primary"
@@ -388,6 +465,10 @@ function App() {
         >
           Get Attendees
         </Button>
+        <div>
+          <div className="title">Theme Selection</div>
+          <div className="theme-selection">{renderThemeOptions()}</div>
+        </div>
 
         <Button
           variant="contained"
