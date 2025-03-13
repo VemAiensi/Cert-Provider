@@ -429,6 +429,7 @@ function App() {
               ref={certRefs.current[index]}
               key={index}
               name={fullName}
+              theme={theme}
             />
           );
         })}
