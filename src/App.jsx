@@ -3,9 +3,9 @@ import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
 import { Button } from "@mui/material";
-import cert1 from "./assets/certTemp.png";
+import cert1 from "./assets/cert1/certTemp.png";
 import CerThumbnail from "./CerThumbnail";
-import cert2 from "./assets/certTemp2.png";
+import cert2 from "./assets/cert2/certTemp2.png";
 
 function App() {
   const [attendees, setAttendees] = useState([

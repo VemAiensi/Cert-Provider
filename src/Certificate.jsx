@@ -24,18 +24,48 @@ const Certificate = forwardRef((props, ref) => {
             <div className="content">
               <h2>CERTIFICATE OF ATTENDANCE</h2>
 
+              <p>is presented to</p>
+              <br />
+              <br />
+              <br />
+
               <span className="participant"> {props.name} </span>
 
+              <div className="line"></div>
+
               <p>
-                is given this certificate for attending the <br />{" "}
+                For participating in the Seminar Entitled<br></br>
                 <strong>
-                  Data Driven Facilities Management: The Future of Smart Spaces
+                  “Lessons, Trends, and Opportunity in the IT Industry”
                 </strong>{" "}
-                <br />
-                seminar hosted by the College of Informatics and Computing
-                Studies held on <br />{" "}
-                <strong>17th of March 2025 at New Era University.</strong>
+                with the topic<br></br>
+                <strong>
+                  “Fueling Innovation: Ideation, Collaboration, and Network for
+                  Technopreneurs"
+                </strong>
               </p>
+
+              <br />
+
+              <p>
+                Given this <strong>16th day</strong> of{" "}
+                <strong>February 2025</strong> at{" "}
+                <strong>New Era University</strong>
+              </p>
+            </div>
+
+            <div className="signatories">
+              <div>
+                <h3>Paul Eraño V. Ladrillo</h3>
+                <p>
+                  Speaker, Data Specialist at JLL Digital Operations Service
+                  Center
+                </p>
+              </div>
+              <div>
+                <h3>Audrey Lyle D. Diego</h3>
+                <p>Dean, College of Computing Studies Director</p>
+              </div>
             </div>
           </div>
         );
