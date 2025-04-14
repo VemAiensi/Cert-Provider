@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "./main.css";
 import Certificate from "./Certificate";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import cert1 from "./assets/cert1/certTemp.png";
 import CerThumbnail from "./CerThumbnail";
 import cert2 from "./assets/cert2/certTemp2.png";
+import FileInput from "./FileInput";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 function App() {
   const [attendees, setAttendees] = useState([
@@ -18,9 +20,29 @@ function App() {
       "Year Level": "4rth Year",
     },
   ]);
+
+  const [seminarTitle, setSeminarTitle] = useState("[Insert Title]");
+  function updateSeminarTitle(e) {
+    setSeminarTitle(e.target.value);
+  }
+  const [speaker, setSpeaker] = useState({
+    name: "[Insert Speaker Name]",
+    title: "[Insert Title]",
+  });
+
+  const [formId, setFormId] = useState("dwoadhoawihfoaw");
+  const [sender, setSender] = useState("example@gmail.com");
+  const [password, setPassword] = useState("password1234");
+
+  const [seminarDate, setSeminarDate] = useState("00");
+
   const certRefs = useRef([]);
   certRefs.current = attendees.map(() => React.createRef());
 
+  const [configDisplay, setConfigDisplay] = useState(false);
+  function toggleConfigDisplay() {
+    setConfigDisplay(!configDisplay);
+  }
   const [confirmSendDisplay, setConfirmSend] = useState(false);
   function toggleSendDisplay() {
     setConfirmSend(!confirmSendDisplay);
@@ -33,7 +55,9 @@ function App() {
 
   async function fetchAttendees() {
     try {
-      const response = await fetch("http://localhost:3000/form-response");
+      const response = await fetch(
+        `http://localhost:3000/form-response?formId=${formId}`
+      );
 
       if (!response.ok) throw new Error("Failed to fetch attendees");
       const data = await response.json();
@@ -57,16 +81,15 @@ function App() {
     }
   }
 
-  function htmlMessage(name) {
+  function htmlMessage(name, seminarTitle, date, speakerName, speakerTitle) {
     return `
 <html>
-  <head> </head>
-  <body style="background-color:rgb(220, 221, 238); margin: 0; padding: 40px 20px 40px 20px;">
+  <body style="background-color:#fffeef; margin: 0; padding: 40px 20px 40px 20px;">
     <table
       cellpadding="0"
       cellspacing="0"
       align="center"
-      style="color: white; width: 100%; font-size: 1rem;"
+      style="color: white; width: 100%; font-size: 1rem"
     >
       <tbody>
         <tr>
@@ -87,35 +110,20 @@ function App() {
             >
               <tbody>
                 <tr>
-                  <td style="font-family: serif;"><i>Thank you for attending</i></td>
+                  <td style="font-family: serif;"><i>Thank you for Attending</i></td>
                 </tr>
                 <tr height="10"></tr>
                 <tr>
                   <td
                     style="
-                      line-height: 48px;
                       text-align: center;
-                      font-size: 42px;
+                      font-size: 34px;
                       font-family: serif;
                       font-weight: bold;
+                      text-transform: uppercase;
                     "
                   >
-                    DATA DRIVEN FACILITIES
-                  </td>
-                </tr>
-
-                <tr>
-                  <td
-                    style="
-                      line-height: 30px;
-                      text-align: center;
-                      font-size: 32px;
-                      font-family: serif;
-                      font-weight: bold;
-                      letter-spacing: -0.022em;
-                    "
-                  >
-                    THE FUTURE OF SMART SPACES
+                    ${seminarTitle}
                   </td>
                 </tr>
               </tbody>
@@ -124,7 +132,7 @@ function App() {
         </tr>
 
         <tr>
-          <td >
+          <td>
             <table
               style="
                 margin: 0 auto;
@@ -133,7 +141,6 @@ function App() {
                 color: #0e1429;
                 padding: 30px;
                 font-family: Inter, Helvetica, Arial, sans-serif;
-                border-radius: 0px 0px 10px 10px;
               "
             >
               <tbody>
@@ -142,17 +149,16 @@ function App() {
                     <table>
                       <tbody>
                         <tr>
-                          <td>Hi <b>${name}</b>,</td>
+                          <td>Dear <b>${name}</b></td>
                         </tr>
                         <tr height="20"></tr>
                         <tr>
                           <td>
                             Thank you so much for attending our
                             <b
-                              >Data Driven Facilities: The Future of Smart
-                              Spaces</b
+                              >${seminarTitle}</b
                             >
-                            seminar on <b>17th of March 2025</b>! We truly
+                            seminar on <b>March ${date}, 2025</b>! We truly
                             appreciate you taking the time to join us and we
                             hope you found the session informative and valuable.
                           </td>
@@ -168,66 +174,26 @@ function App() {
                       </tbody>
                     </table>
                   </td>
-
                 </tr>
+
                 <tr>
                   <td>
-                    <table style="max-width: 500px; margin: 0 auto;">
+                    <table style="width: 100%; text-align: center; margin-bottom: 10px">
                       <tbody>
                         <tr>
-                          <td align="center">
-                            <img
-                              src="http://drive.google.com/uc?export=view&id=10F85AfaewfhX0eNB0H1SUT7XKiY33IR5"
-                            />
+                          <td style="text-align: center">
+                            <b>${speakerName}</b>
                           </td>
                         </tr>
                         <tr>
                           <td style="text-align: center">
-                            <b>Paul Eraño V. Ladrillo</b>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: center">
-                            <i>
-                              Seminar Speaker <br/> 
-                              Data Specialist at  JLL Digital Operations Service Center
-                            </i>
+                            <i
+                              >${speakerTitle}</i
+                            >
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                  </td>
-                </tr>
-
-                
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <table
-              align="center"
-              style="
-                margin: 0 auto;
-                font-size: small;
-                text-align: center;
-                color: #51545c;
-                text-decoration: none;
-                padding: 30px;
-                font-family: Inter, Helvetica, Arial, sans-serif;
-              "
-            >
-              <tbody>
-                <tr>
-                  <td><b>CONTRIBUTORS:</b></td>
-                </tr>
-                <tr>
-                  <td>marcoangelo.dedios@neu.edu.ph vemaiensi.marasigan@neu.edu.ph clark.belen@neu.edu.ph</td>
-                </tr>
-                <tr>
-                  <td>
-                     ma.yalaine.merino@neu.edu.ph marianne.edic@neu.edu.ph
                   </td>
                 </tr>
               </tbody>
@@ -249,13 +215,12 @@ function App() {
                 font-weight: 300;
                 padding: 20px;
                 margin: 0 auto;
-                border-radius: 10px;
+                border-radius: 0px 0px 10px 10px;
               "
             >
               <tbody>
                 <tr>
                   <td
-                  
                     style="
                       font-family: serif;
                       font-weight: 600;
@@ -288,15 +253,24 @@ function App() {
     </table>
   </body>
 </html>
+
 `;
   }
 
   //Submitting the post request
   async function sendEmail(name, email, cert) {
     const data = {
+      sender: sender,
       to: email,
-      subject: "SEMINAR | Data Driven Facilities: The Future of Smart Spaces",
-      html: htmlMessage(name),
+      subject: `SEMINAR | ${seminarTitle}`,
+      html: htmlMessage(
+        name,
+        seminarTitle,
+        seminarDate,
+        speaker.name,
+        speaker.title
+      ),
+      password: password,
     };
     const formData = new FormData();
 
@@ -336,6 +310,8 @@ function App() {
         await sendEmail(attendee["First Name"], attendee.Email, certIndex);
       })
     );
+    toggleSendBtn();
+    document.querySelector("#sendBtn").removeAttribute("disabled");
     toggleSendDisplay();
   }
 
@@ -430,14 +406,17 @@ function App() {
               key={index}
               name={fullName}
               theme={theme}
+              speaker={speaker}
+              title={seminarTitle}
+              date={seminarDate}
             />
           );
         })}
       </div>
 
       <div className="controls">
+        <div className="title">ATTENDEE LIST</div>
         <div className="attendee-container">
-          <div className="title">ATTENDEE LIST</div>
           <div className="attendee-list">
             {attendees.map((entry, index) => {
               let fullName = entry["First Name"] + " ";
@@ -458,18 +437,30 @@ function App() {
             })}
           </div>
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={fetchAttendees}
-          className="get-btn"
-        >
-          Get Attendees
-        </Button>
-        <div>
+        <div className="input-group">
+          <Button
+            variant="contained"
+            color="white"
+            onClick={toggleConfigDisplay}
+          >
+            <SettingsIcon></SettingsIcon>
+          </Button>
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={fetchAttendees}
+            className="get-btn"
+          >
+            Get Attendees
+          </Button>
+        </div>
+
+        {/* <div>
           <div className="title">Theme Selection</div>
           <div className="theme-selection">{renderThemeOptions()}</div>
-        </div>
+        </div> */}
 
         <Button
           variant="contained"
@@ -481,8 +472,8 @@ function App() {
         </Button>
       </div>
       {confirmSendDisplay && (
-        <div className="confirm-send-modal">
-          <div className="modal-container">
+        <div className="modal-display">
+          <div className="send-modal-container">
             <div className="description">
               <p>This action will send</p>
               <div className="attendee-number">
@@ -496,6 +487,7 @@ function App() {
                 Cancel
               </Button>
               <Button
+                id="sendBtn"
                 variant="contained"
                 color="success"
                 onClick={() => {
@@ -504,6 +496,100 @@ function App() {
                 disabled={sendBtn}
               >
                 Submit
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {configDisplay && (
+        <div className="modal-display">
+          <div className="config-modal-container">
+            <div className="configTitle">CONFIGURATION</div>
+            <div className="input-fields">
+              Seminar Details
+              <div className="input-group">
+                <TextField
+                  fullWidth
+                  label="Seminar Title"
+                  onChange={updateSeminarTitle}
+                  value={seminarTitle}
+                  variant="standard"
+                />
+                <TextField
+                  type="number"
+                  label="Seminar Date"
+                  onChange={(e) => {
+                    setSeminarDate(e.target.value);
+                  }}
+                  value={seminarDate}
+                  variant="standard"
+                />
+              </div>
+              <div className="input-group">
+                <TextField
+                  label="Speaker"
+                  fullWidth
+                  onChange={(e) => {
+                    setSpeaker({ ...speaker, name: e.target.value });
+                  }}
+                  value={speaker.name}
+                  variant="standard"
+                />
+                <TextField
+                  fullWidth
+                  label="Speaker Title"
+                  onChange={(e) => {
+                    setSpeaker({ ...speaker, title: e.target.value });
+                  }}
+                  value={speaker.title}
+                  variant="standard"
+                />
+              </div>
+              <TextField
+                fullWidth
+                type="password"
+                label="Form ID"
+                onChange={(e) => {
+                  setFormId(e.target.value);
+                }}
+                value={formId}
+                variant="standard"
+              />
+              <br />
+              <br />
+              Email Credentials
+              <TextField
+                fullWidth
+                label="Sender Email"
+                onChange={(e) => {
+                  setSender(e.target.value);
+                }}
+                value={sender}
+                variant="standard"
+              />
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                value={password}
+                variant="standard"
+              />
+            </div>
+            <FileInput
+              setTitle={setSeminarTitle}
+              setDate={setSeminarDate}
+              setSpeaker={setSpeaker}
+              setFormId={setFormId}
+              setEmail={setSender}
+              setPassword={setPassword}
+            ></FileInput>
+            <div className="action-buttons">
+              <Button color="primary" onClick={toggleConfigDisplay}>
+                CLOSE
               </Button>
             </div>
           </div>

@@ -14,26 +14,26 @@ app.use(cors());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 env.config({ path: path.resolve(__dirname, "..", ".env") });
-console.log(process.env.EMAIL, process.env.PASSWORD);
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-});
 const upload = multer();
 
 app.post("/send-email", upload.single("image"), async (req, res) => {
-  try {
-    const { to, subject, html } = req.body;
+  const { sender, to, subject, html, password } = await req.body;
 
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: sender,
+      pass: password,
+    },
+  });
+
+  try {
     // Email options
     const mailOptions = {
-      from: "vemaiensi.marasigan@neu.edu.ph", // Replace with your Gmail address
+      from: sender, // Replace with your Gmail address
       to: to,
       subject: subject,
       html: html,
@@ -59,7 +59,7 @@ app.post("/send-email", upload.single("image"), async (req, res) => {
 app.get("/form-response", async (req, res) => {
   try {
     const response = await fetch(
-      `${process.env.FORM_ENDPOINT}?formId=${process.env.FORM_ID}`
+      `${process.env.FORM_ENDPOINT}?formId=${req.query.formId}`
     );
 
     if (!response.ok) throw new Error("Failed to fetch attendees");

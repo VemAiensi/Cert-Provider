@@ -4,8 +4,10 @@ import cicslogo from "./assets/CICS.png";
 import "./cert.css";
 
 const Certificate = forwardRef((props, ref) => {
+  const { theme, name, speaker, title, date } = props;
+
   function renderCert() {
-    switch (props.theme) {
+    switch (theme) {
       case 1:
         return (
           <div className="cert-1">
@@ -29,7 +31,7 @@ const Certificate = forwardRef((props, ref) => {
               <br />
               <br />
 
-              <span className="participant"> {props.name} </span>
+              <span className="participant"> {name} </span>
 
               <div className="line"></div>
 
@@ -39,28 +41,22 @@ const Certificate = forwardRef((props, ref) => {
                   “Lessons, Trends, and Opportunity in the IT Industry”
                 </strong>{" "}
                 with the topic<br></br>
-                <strong>
-                  “Fueling Innovation: Ideation, Collaboration, and Network for
-                  Technopreneurs"
-                </strong>
+                <strong>“{title}”</strong>
               </p>
 
               <br />
 
               <p>
-                Given this <strong>16th day</strong> of{" "}
-                <strong>February 2025</strong> at{" "}
+                Given this <strong>{date}th day</strong> of{" "}
+                <strong>March 2025</strong> at{" "}
                 <strong>New Era University</strong>
               </p>
             </div>
 
             <div className="signatories">
               <div>
-                <h3>Paul Eraño V. Ladrillo</h3>
-                <p>
-                  Speaker, Data Specialist at JLL Digital Operations Service
-                  Center
-                </p>
+                <h3>{speaker.name}</h3>
+                <p>{speaker.title}</p>
               </div>
               <div>
                 <h3>Audrey Lyle D. Diego</h3>
