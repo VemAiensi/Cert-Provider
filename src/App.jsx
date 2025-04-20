@@ -12,12 +12,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 function App() {
   const [attendees, setAttendees] = useState([
     {
-      Email: "vem.aiensi@gmail.com",
-      "First Name": "Vem Aiensi",
-      "Middle Initial": "A",
-      "Last Name": "Marasigan",
-      Program: "BS Computer Science",
-      "Year Level": "4rth Year",
+      email: "vem.aiensi@gmail.com",
+      name: "Marasigan, Vem Aiensi A.",
     },
   ]);
 
@@ -149,7 +145,7 @@ function App() {
                     <table>
                       <tbody>
                         <tr>
-                          <td>Dear <b>${name}</b></td>
+                          <td>Hello 👋</td>
                         </tr>
                         <tr height="20"></tr>
                         <tr>
@@ -258,18 +254,12 @@ function App() {
   }
 
   //Submitting the post request
-  async function sendEmail(name, email, cert) {
+  async function sendEmail(email, cert) {
     const data = {
       sender: sender,
       to: email,
       subject: `SEMINAR | ${seminarTitle}`,
-      html: htmlMessage(
-        name,
-        seminarTitle,
-        seminarDate,
-        speaker.name,
-        speaker.title
-      ),
+      html: htmlMessage(seminarTitle, seminarDate, speaker.name, speaker.title),
       password: password,
     };
     const formData = new FormData();
@@ -307,7 +297,7 @@ function App() {
     toggleSendBtn();
     await Promise.all(
       attendees.map(async (attendee, certIndex) => {
-        await sendEmail(attendee["First Name"], attendee.Email, certIndex);
+        await sendEmail(attendee.email, certIndex);
       })
     );
     toggleSendBtn();
@@ -394,17 +384,11 @@ function App() {
     <div className="workstation">
       <div className="workspace">
         {attendees.map((entry, index) => {
-          let fullName = entry["First Name"] + " ";
-          if (entry["Middle Initial"]) {
-            fullName += entry["Middle Initial"] + ". ";
-          }
-          fullName += entry["Last Name"];
-
           return (
             <Certificate
               ref={certRefs.current[index]}
               key={index}
-              name={fullName}
+              name={entry.name}
               theme={theme}
               speaker={speaker}
               title={seminarTitle}
