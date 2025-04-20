@@ -82,7 +82,7 @@ function App() {
   function htmlMessage(seminarTitle, date, speakerName, speakerTitle) {
     return `
 <html>
-  <body style="background-color:#fffeef; margin: 0; padding: 40px 20px 40px 20px;">
+  <body style="background-color:#f1f8fc; margin: 0; padding: 40px 20px 40px 20px;">
     <table
       cellpadding="0"
       cellspacing="0"
@@ -98,7 +98,7 @@ function App() {
                 max-width: 700px;
                 margin: 0 auto;
                 text-align: center;
-                background-color: rgb(0, 11, 71);
+                background-color: #2c2c7c;
                 color: white;
                 font-family: Inter, Helvetica, Arial, sans-serif;
                 font-weight: 600;
@@ -122,6 +122,17 @@ function App() {
                     "
                   >
                     ${seminarTitle}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-family: sans;
+                      font-weight: bold;
+                    "
+                  >
+                    <hr>
+                    <p>Lessons, Trends, and Opportunities in the IT Industry</p>
                   </td>
                 </tr>
               </tbody>
@@ -152,13 +163,20 @@ function App() {
                         <tr height="20"></tr>
                         <tr>
                           <td>
-                            Thank you so much for attending our
-                            <b
-                              >${seminarTitle}</b
-                            >
-                            seminar on <b>March ${date}, 2025</b>! We truly
-                            appreciate you taking the time to join us and we
+                            <p>Thank you so much for attending our seminar entitled <br/>
+                            "Lessons, Trends, and
+                            Opportunities in the IT Industry" with the topic: <br/>
+                            
+                            <b>${seminarTitle}</b>
+
+                            <br/>
+                            on <b>March ${date}, 2025</b>
+                            
+                            <br/>
+                            <br/>
+                            We truly appreciate your effort for taking the time to join us and we
                             hope you found the session informative and valuable.
+                            </p>
                           </td>
                         </tr>
                         <tr height="20"></tr>
@@ -186,7 +204,7 @@ function App() {
                         <tr>
                           <td style="text-align: center">
                             <i
-                              >${speakerTitle}</i
+                              >Seminar Speaker | ${speakerTitle}</i
                             >
                           </td>
                         </tr>
@@ -207,7 +225,7 @@ function App() {
                 margin: 0 auto;
                 text-align: center;
                 margin-bottom: 10px;
-                background-color: rgb(0, 11, 71);
+                background-color: #2c2c7c;
                 color: white;
                 font-family: Inter, Helvetica, Arial, sans-serif;
                 font-weight: 300;
