@@ -205,14 +205,15 @@ p {
       align-items: flex-start;
       h1 {
         font-family: "Smooth Elegant";
-        font-size: 70px;
+        font-size: 80px;
         margin-bottom: 10px;
+        font-weight: 700;
         color: black;
       }
       h3 {
         font-family: "PT Sans Narrow";
         letter-spacing: 5px;
-        font-size: 32px;
+        font-size: 42px;
         color: black;
       }
     }
