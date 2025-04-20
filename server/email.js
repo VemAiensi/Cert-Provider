@@ -82,6 +82,9 @@ app.get("/form-response", async (req, res) => {
 function proper(data) {
   let transformedName = data.name;
   // console.log(transformedName);
+  if (transformedName.charAt(transformedName.length - 1) === " ") {
+    transformedName = transformedName.slice(0, -1);
+  }
 
   //make sure Middle Initials have a period
   if (transformedName.charAt(transformedName.length - 1) !== ".") {
