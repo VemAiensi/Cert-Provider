@@ -8,6 +8,7 @@ import CerThumbnail from "./CerThumbnail";
 import cert2 from "./assets/cert2/certTemp2.png";
 import FileInput from "./FileInput";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ImageInput from "./ImageInput";
 
 function App() {
   const [attendees, setAttendees] = useState([
@@ -17,6 +18,7 @@ function App() {
     },
   ]);
 
+  //seminar details
   const [seminarTitle, setSeminarTitle] = useState("[Insert Title]");
   function updateSeminarTitle(e) {
     setSeminarTitle(e.target.value);
@@ -29,8 +31,8 @@ function App() {
   const [formId, setFormId] = useState("dwoadhoawihfoaw");
   const [sender, setSender] = useState("example@gmail.com");
   const [password, setPassword] = useState("password1234");
-
   const [seminarDate, setSeminarDate] = useState("00");
+  const [signPath, setSignPath] = useState(null);
 
   const certRefs = useRef([]);
   certRefs.current = attendees.map(() => React.createRef());
@@ -393,6 +395,7 @@ function App() {
               speaker={speaker}
               title={seminarTitle}
               date={seminarDate}
+              signPath={signPath}
             />
           );
         })}
@@ -530,16 +533,19 @@ function App() {
                   variant="standard"
                 />
               </div>
-              <TextField
-                fullWidth
-                type="password"
-                label="Form ID"
-                onChange={(e) => {
-                  setFormId(e.target.value);
-                }}
-                value={formId}
-                variant="standard"
-              />
+              <div className="input-group">
+                <TextField
+                  fullWidth
+                  type="password"
+                  label="Form ID"
+                  onChange={(e) => {
+                    setFormId(e.target.value);
+                  }}
+                  value={formId}
+                  variant="standard"
+                />
+                <ImageInput setSignPath={setSignPath}></ImageInput>
+              </div>
               <br />
               <br />
               Email Credentials

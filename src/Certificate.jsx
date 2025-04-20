@@ -5,7 +5,7 @@ import QRCode from "./QRCode.jsx";
 import "./cert.css";
 
 const Certificate = forwardRef((props, ref) => {
-  const { theme, name, speaker, title, date } = props;
+  const { theme, name, speaker, title, date, signPath } = props;
 
   function renderCert() {
     switch (theme) {
@@ -165,6 +165,7 @@ const Certificate = forwardRef((props, ref) => {
                 </div>
 
                 <div className="signatory">
+                  <img src={signPath} alt="" />
                   <h3>
                     <strong>Prof. Audrey Lyle D. Diego</strong>
                   </h3>

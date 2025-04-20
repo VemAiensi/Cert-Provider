@@ -286,6 +286,11 @@ p {
     .signatory {
       display: flex;
       flex-direction: column;
+      img {
+        align-self: center;
+        position: absolute;
+        width: 200px;
+      }
 
       h3 strong {
         color: black;
