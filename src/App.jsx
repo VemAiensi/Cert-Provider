@@ -77,7 +77,7 @@ function App() {
     }
   }
 
-  function htmlMessage(name, seminarTitle, date, speakerName, speakerTitle) {
+  function htmlMessage(seminarTitle, date, speakerName, speakerTitle) {
     return `
 <html>
   <body style="background-color:#fffeef; margin: 0; padding: 40px 20px 40px 20px;">
