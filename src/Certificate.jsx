@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 import neulogo from "./assets/NEU_Logo.png";
 import cicslogo from "./assets/CICS.png";
+import QRCode from "./QRCode.jsx";
 import "./cert.css";
 
 const Certificate = forwardRef((props, ref) => {
@@ -110,6 +111,78 @@ const Certificate = forwardRef((props, ref) => {
                 <div>
                   <h3>Audrey Lyle D. Diego</h3>
                   <p>Dean, College of Computing Studies Director</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="cert-3">
+            <div className="container">
+              <div className="topSection">
+                <div className="intro">
+                  <h1>CERTIFICATE</h1>
+                  <h3>OF ATTENDANCE</h3>
+                </div>
+                <div className="headers">
+                  <div className="logos">
+                    <img src={cicslogo} alt="" />
+                    <img src={neulogo} alt="" />
+                  </div>
+
+                  <h3>New Era University</h3>
+                  <p>College of Informatics and Computing Studies</p>
+                </div>
+              </div>
+
+              <div className="content">
+                <span>
+                  <strong>THIS CERTIFICATE IS PRESENTED TO</strong>
+                </span>
+
+                <span className="participant"> {name} </span>
+
+                <span>For participating in the seminar entitled</span>
+                <span>
+                  <strong>
+                    Lessons, Trends, and Opportunity in the IT Industry
+                  </strong>
+                </span>
+                <span>with the topic</span>
+                <span>
+                  <strong>{title}</strong>
+                </span>
+              </div>
+
+              <div className="bottomSection">
+                <div className="qrCode">
+                  <QRCode
+                    value={
+                      "Guest Speaker:\n" + speaker.name + "\n" + speaker.title
+                    }
+                  />
+                </div>
+
+                <div className="signatory">
+                  <h3>
+                    <strong>Prof. Audrey Lyle D. Diego</strong>
+                  </h3>
+                  <p>
+                    Dean, College of Informatics and
+                    <br />
+                    Computing Studies Director
+                  </p>
+                </div>
+
+                <div className="seminarDetails">
+                  <span>Seminar Date:</span>
+                  <span>
+                    <strong>{date} March 2025</strong>{" "}
+                  </span>
+                  <br />
+                  <span>New Era University Hall</span>
+                  <span>No. 9 Central Ave. New Era, Quezon City</span>
                 </div>
               </div>
             </div>

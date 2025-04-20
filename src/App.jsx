@@ -305,7 +305,7 @@ function App() {
     toggleSendDisplay();
   }
 
-  const [theme, setTheme] = useState(1);
+  const [theme, setTheme] = useState(3);
   function renderThemeOptions() {
     switch (theme) {
       case 1:
