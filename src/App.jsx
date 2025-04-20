@@ -403,18 +403,18 @@ function App() {
         <div className="attendee-container">
           <div className="attendee-list">
             {attendees.map((entry, index) => {
-              let fullName = entry["First Name"] + " ";
-              if (entry["Middle Initial"]) {
-                fullName += entry["Middle Initial"] + ". ";
-              }
-              fullName += entry["Last Name"];
+              // let fullName = entry["First Name"] + " ";
+              // if (entry["Middle Initial"]) {
+              //   fullName += entry["Middle Initial"] + ". ";
+              // }
+              // fullName += entry["Last Name"];
 
               return (
                 <div key={index} className="attendee">
                   <div className="dot"></div>
                   <div className="text">
-                    <h3>{fullName}</h3>
-                    <p>{entry.Email}</p>
+                    <h3>{entry.name}</h3>
+                    <p>{entry.email}</p>
                   </div>
                 </div>
               );
