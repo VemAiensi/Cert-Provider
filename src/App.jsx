@@ -9,6 +9,7 @@ import cert2 from "./assets/cert2/certTemp2.png";
 import FileInput from "./FileInput";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ImageInput from "./ImageInput";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function App() {
   const [attendees, setAttendees] = useState([
@@ -36,6 +37,9 @@ function App() {
 
   const certRefs = useRef([]);
   certRefs.current = attendees.map(() => React.createRef());
+
+  const [delConfirmation, setDelConfirmation] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(0);
 
   const [configDisplay, setConfigDisplay] = useState(false);
   function toggleConfigDisplay() {
@@ -432,10 +436,21 @@ function App() {
 
               return (
                 <div key={index} className="attendee">
-                  <div className="dot"></div>
+                  {/* <div className="dot"></div> */}
                   <div className="text">
                     <h3>{entry.name}</h3>
                     <p>{entry.email}</p>
+                  </div>
+
+                  <div className="delete-btn">
+                    <button
+                      onClick={() => {
+                        setDelConfirmation(true);
+                        setDeleteIndex(index);
+                      }}
+                    >
+                      <RemoveCircleIcon color="error" />
+                    </button>
                   </div>
                 </div>
               );
@@ -501,6 +516,45 @@ function App() {
                 disabled={sendBtn}
               >
                 Submit
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {delConfirmation && (
+        <div className="modal-display">
+          <div className="send-modal-container">
+            <div className="description">
+              <p>Are you sure to delete</p>
+              <br />
+              <div className="delete-attendee">
+                <h2>{attendees[deleteIndex].name}</h2>
+                <p>{attendees[deleteIndex].email}</p>
+              </div>
+              <br />
+              <p>Caution: This action is ireversible</p>
+            </div>
+
+            <div className="action-buttons">
+              <Button
+                color="primary"
+                onClick={() => {
+                  setDelConfirmation(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  setAttendees((prev) =>
+                    prev.filter((_, i) => i !== deleteIndex)
+                  );
+                  setDelConfirmation(false);
+                }}
+              >
+                Delete
               </Button>
             </div>
           </div>
