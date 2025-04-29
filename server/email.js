@@ -69,7 +69,7 @@ app.get("/form-response", async (req, res) => {
     // console.log(data);
     const clean = data.map((dataItem) => proper(dataItem));
 
-    console.log(clean);
+    // console.log(clean);
 
     res.json(clean);
   } catch (error) {
@@ -81,8 +81,18 @@ app.get("/form-response", async (req, res) => {
 //transform email name to proper format.
 function proper(data) {
   let transformedName = data.name;
-  // console.log(transformedName);
+
+  if (
+    transformedName.charAt(transformedName.indexOf(",") + 1) !== " " &&
+    transformedName.indexOf(",") !== -1
+  ) {
+    let parts = transformedName.split(",");
+    transformedName = `${parts[0]}, ${parts[1]}`;
+    console.log(transformedName + "\n" + parts);
+  }
+
   if (transformedName.charAt(transformedName.length - 1) === " ") {
+    // console.log(transformedName);
     transformedName = transformedName.slice(0, -1);
   }
 
