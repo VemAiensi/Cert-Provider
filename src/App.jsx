@@ -305,7 +305,7 @@ function App() {
 
       if (response.ok) {
         const responseData = await response.text();
-        console.log(`Message to ${email}`, responseData);
+        console.log(`[${cert}] Message to ${email}`, responseData);
         return responseData;
       } else {
         console.error("Failed to send data:", response.statusText);
@@ -319,11 +319,22 @@ function App() {
 
   async function sendEmails() {
     toggleSendBtn();
-    await Promise.all(
-      attendees.map(async (attendee, certIndex) => {
-        await sendEmail(attendee.email, certIndex);
-      })
-    );
+    let batchSize = 20;
+    const totalAttendees = attendees.length;
+    for (let i = 0; i < totalAttendees; i += batchSize) {
+      console.log("\nSending Next Batch:\n");
+      const batch = attendees.slice(i, i + batchSize);
+      await Promise.all(
+        batch.map(async (attendee, certIndex) => {
+          // Note: The certIndex here will be relative to the original 'attendees' array
+          // If you need it relative to the batch, you'll need to adjust accordingly.
+          await sendEmail(attendee.email, i + certIndex);
+        })
+      );
+      // Optionally add a delay here to avoid overwhelming the email server
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+      console.log("\nEnd of Batch");
+    }
     toggleSendBtn();
     document.querySelector("#sendBtn").removeAttribute("disabled");
     toggleSendDisplay();

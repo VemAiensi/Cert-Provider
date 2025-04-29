@@ -31,6 +31,7 @@ app.post("/send-email", upload.single("image"), async (req, res) => {
   });
 
   try {
+    console.log("Sending email to: " + to);
     // Email options
     const mailOptions = {
       from: sender, // Replace with your Gmail address
@@ -88,7 +89,7 @@ function proper(data) {
   ) {
     let parts = transformedName.split(",");
     transformedName = `${parts[0]}, ${parts[1]}`;
-    console.log(transformedName + "\n" + parts);
+    // console.log(transformedName + "\n" + parts);
   }
 
   if (transformedName.charAt(transformedName.length - 1) === " ") {
