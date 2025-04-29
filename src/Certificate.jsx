@@ -166,15 +166,17 @@ const Certificate = forwardRef((props, ref) => {
 
                 <div className="signatory">
                   <img src={signPath} alt="" />
-                  <h3>
-                    <strong>Prof. Audrey Lyle D. Diego</strong>
-                  </h3>
-                  <p>Dean, College of Informatics and Computing Studies</p>
-                  <br />
+
                   <h3>
                     <strong>Prof. Laurice Anne I. Laureta</strong>
                   </h3>
-                  <p>Seminar Director and Course Instructor</p>
+                  <p>Course Facilitator</p>
+
+                  <br />
+                  <h3>
+                    <strong>Prof. Audrey Lyle D. Diego</strong>
+                  </h3>
+                  <p>Dean</p>
                 </div>
 
                 <div className="seminarDetails">
