@@ -257,6 +257,9 @@ p {
       font-weight: 600;
       letter-spacing: 4px;
     }
+    /* span:last-child strong {
+      font-size: 1rem;
+    } */
 
     .participant {
       margin-bottom: 10px;
