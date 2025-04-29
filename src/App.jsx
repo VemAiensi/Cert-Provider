@@ -63,7 +63,7 @@ function App() {
 
       if (!response.ok) throw new Error("Failed to fetch attendees");
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setAttendees(data);
       certRefs.current = data.map(() => React.createRef());
     } catch (error) {
