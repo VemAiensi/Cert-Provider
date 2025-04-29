@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 import neulogo from "./assets/NEU_Logo.png";
 import cicslogo from "./assets/CICS.png";
+import piptilogo from "./assets/PIPTIGOLD.png";
 import QRCode from "./QRCode.jsx";
 import "./cert.css";
 
@@ -127,8 +128,9 @@ const Certificate = forwardRef((props, ref) => {
                 </div>
                 <div className="headers">
                   <div className="logos">
-                    <img src={cicslogo} alt="" />
                     <img src={neulogo} alt="" />
+                    <img src={cicslogo} alt="" />
+                    <img src={piptilogo} alt="" />
                   </div>
 
                   <h3>New Era University</h3>
@@ -166,14 +168,17 @@ const Certificate = forwardRef((props, ref) => {
 
                 <div className="signatory">
                   <img src={signPath} alt="" />
+
+                  <h3>
+                    <strong>Prof. Laurice Anne I. Laureta</strong>
+                  </h3>
+                  <p>Course Facilitator</p>
+
+                  <br />
                   <h3>
                     <strong>Prof. Audrey Lyle D. Diego</strong>
                   </h3>
-                  <p>
-                    Dean, College of Informatics and
-                    <br />
-                    Computing Studies Director
-                  </p>
+                  <p>Dean</p>
                 </div>
 
                 <div className="seminarDetails">

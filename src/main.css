@@ -29,7 +29,7 @@
   margin-left: auto;
   justify-self: flex-end;
   padding: 20px;
-  width: 300px;
+  width: 400px;
   height: 100dvh;
   background-color: white;
   display: flex;
@@ -38,8 +38,8 @@
 }
 
 .attendee-container {
-  border-radius: 5px;
-  border: 0.5px solid gray;
+  /* border-radius: 5px;
+  border: 0.5px solid gray; */
   padding: 10px;
   flex-grow: 1;
   overflow: auto;
@@ -61,8 +61,36 @@
 
 .attendee {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+
   color: rgb(6, 0, 99);
+  border-radius: 5px;
+  /* border: 1px solid black; */
+  padding: 5px 20px;
+  transition: box-shadow 0.3s ease-out;
+  box-sizing: border-box;
+}
+.attendee:hover {
+  box-shadow: 0px 1px 5px gray;
+}
+
+.delete-btn {
+  justify-self: flex-end;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.delete-btn button {
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.attendee:hover > .delete-btn {
+  opacity: 100%;
 }
 
 .attendee .dot {
@@ -95,6 +123,21 @@
   justify-self: flex-end;
 }
 
+@keyframes pulse-entrance {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .modal-display {
   position: absolute;
   display: flex;
@@ -103,6 +146,12 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 6, 58, 0.577);
+}
+
+.delete-attendee {
+  h2 {
+    font-family: "Nefelibata Pen Sans";
+  }
 }
 
 .send-modal-container {
@@ -114,6 +163,7 @@
   flex-direction: column;
   align-items: center;
   padding: 30px;
+  animation: pulse-entrance 0.5s;
 }
 .config-modal-container {
   background-color: white;
@@ -124,6 +174,7 @@
   flex-direction: column;
   padding: 50px;
   font-family: Arial, Helvetica, sans-serif;
+  animation: pulse-entrance 0.5s;
 }
 .configTitle {
   font-size: large;
