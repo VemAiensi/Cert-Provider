@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 import neulogo from "./assets/NEU_Logo.png";
 import cicslogo from "./assets/CICS.png";
+import piptilogo from "./assets/PIPTIGOLD.png";
 import QRCode from "./QRCode.jsx";
 import "./cert.css";
 
@@ -127,8 +128,9 @@ const Certificate = forwardRef((props, ref) => {
                 </div>
                 <div className="headers">
                   <div className="logos">
-                    <img src={cicslogo} alt="" />
                     <img src={neulogo} alt="" />
+                    <img src={cicslogo} alt="" />
+                    <img src={piptilogo} alt="" />
                   </div>
 
                   <h3>New Era University</h3>
