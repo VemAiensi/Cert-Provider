@@ -5,11 +5,13 @@ import Certificate from "./Certificate";
 import { Button, TextField } from "@mui/material";
 import cert1 from "./assets/cert1/certTemp.png";
 import CerThumbnail from "./CerThumbnail";
-import cert2 from "./assets/cert2/certTemp2.png";
+import cert2 from "./assets/cert2/HelloWorld.png";
+import cert3 from "./assets/cert3/certTemp3.png";
 import FileInput from "./FileInput";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ImageInput from "./ImageInput";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 function App() {
   const [attendees, setAttendees] = useState([
@@ -340,6 +342,54 @@ function App() {
     toggleSendDisplay();
   }
 
+  //manual mode
+
+  async function downloadCert(certIndex) {
+    function blobToDataURL(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    // Example usage:
+    // Assuming you have an imageBlob object named 'myImageBlob'
+    blobToDataURL(await generateCertImage(certIndex)).then((dataUrl) => {
+      // console.log(dataUrl);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = dataUrl;
+      downloadLink.download = `${attendees[certIndex].name}.png`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    });
+  }
+  async function exportAllCerts() {
+    await Promise.all(
+      attendees.map((_, index) => {
+        downloadCert(index);
+      })
+    );
+  }
+
+  const [stagedAttendee, setStagedAttendee] = useState({
+    name: "",
+    email: "null@gmail.com",
+  });
+  function appendAttendee() {
+    setAttendees((prev) => [...prev, stagedAttendee]);
+    setStagedAttendee({ name: "", email: "null@gmail.com" });
+  }
+  const buttonRef = useRef(null);
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      buttonRef.current.click();
+    }
+  }
+
   const [theme, setTheme] = useState(3);
   function renderThemeOptions() {
     switch (theme) {
@@ -360,7 +410,7 @@ function App() {
             ></CerThumbnail>
             <CerThumbnail
               certNum={3}
-              imgSrc={cert1}
+              imgSrc={cert3}
               active={false}
               clickFnc={setTheme}
             ></CerThumbnail>
@@ -383,7 +433,7 @@ function App() {
             ></CerThumbnail>
             <CerThumbnail
               certNum={3}
-              imgSrc={cert1}
+              imgSrc={cert3}
               active={false}
               clickFnc={setTheme}
             ></CerThumbnail>
@@ -406,7 +456,7 @@ function App() {
             ></CerThumbnail>
             <CerThumbnail
               certNum={3}
-              imgSrc={cert1}
+              imgSrc={cert3}
               active={true}
               clickFnc={setTheme}
             ></CerThumbnail>
@@ -468,6 +518,37 @@ function App() {
             })}
           </div>
         </div>
+
+        <div className="input-group">
+          <TextField
+            fullWidth
+            variant="filled"
+            label="Participant Name"
+            value={stagedAttendee.name}
+            onChange={(e) => {
+              setStagedAttendee({ ...stagedAttendee, name: e.target.value });
+            }}
+            onKeyDown={handleKeyDown}
+          ></TextField>
+          <Button
+            variant="contained"
+            color="primary"
+            ref={buttonRef}
+            onClick={appendAttendee}
+          >
+            <KeyboardReturnIcon />
+          </Button>
+        </div>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            exportAllCerts();
+          }}
+        >
+          Export Certificates
+        </Button>
+        <hr />
         <div className="input-group">
           <Button
             variant="contained"
@@ -487,12 +568,10 @@ function App() {
             Get Attendees
           </Button>
         </div>
-
-        {/* <div>
+        <div>
           <div className="title">Theme Selection</div>
           <div className="theme-selection">{renderThemeOptions()}</div>
-        </div> */}
-
+        </div>
         <Button
           variant="contained"
           color="success"
