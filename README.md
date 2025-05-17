@@ -23,7 +23,9 @@ Create certificates based on a google forms attendance and send it with a format
 >
 > - Require email
 > - create a single text-field for name: `Last Name, First Name MI.`
-> - Ex. `Marasigan, Vem Aiensi A.` > _It might not be the best practice but it was unfortunately done to adapt into the existing attendance form the college created._
+> - Ex. `Marasigan, Vem Aiensi A.`
+>
+> _It might not be the best practice but it was unfortunately done to adapt into the existing attendance form the college created._
 
 > [!WARNING]
 > Be sure to check your email service provider's limit for sending emails. For ex. Gmail has a 500 limit for free accounts. It's best to look it up first to avoid problems such as being marked as spam or account termination.
