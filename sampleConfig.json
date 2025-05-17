@@ -1,0 +1,11 @@
+{
+  "seminarTitle": "Your Title Here",
+  "seminarDay": "17",
+  "speaker": {
+    "name": "Your Guest Speaker",
+    "title": "Ex. they're job title"
+  },
+  "formId": "44characterstringformID",
+  "sender": "youremail@address.here",
+  "password": "your16characterapppassword"
+}
